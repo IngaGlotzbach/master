@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<link rel="stylesheet" href="Essensplaner_css.css">
+<script src="./node_modules/zone.js/dist/zone.js"></script>
+<script src="./node_modules/@datev/tax-integration/main.js"></script>
+<body>
+
+<h1>Der Essenplaner</h1>
+<p>Welches Essen gibt es heute?</p>
+<p id="essen">Das Essen</p>
+
+<div class="center">
+<button type="button" onclick='document.getElementById("essen").innerHTML = changeFood()'>Click Me!</button>
+<button type="button" onclick=onClick()>Hello</button>
+</div>
+
+<form onsubmit="return inputFood()">
+    <p>Please insert the items</p>
+    <input type="text" id="box">
+    <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>
+
+<script>
+    let food = document.getElementById("essen")
+    
+    let gerichte = ["Cottage Pie mit Rotweinsosse", "Kokos-Currysuppe mit Garnelen", "Erdnusscurry mit Tofu und Reis", "Zucchinischnitzel", "Linseneintopf", "Linsenbolognese", "Ofengemüse", "Lachs in Rahmsoße mit Bandnudeln", "Rahmpilz-Soße mit Spätzle", "Pizza", "Bauerntopf", "Chili con Carne", "Fischstäbchen mit Rührei und Kartoffeln", "Leberkäs mit Spiegelei und Spinat", "Schinkennudeln", "Semmelknödel", "Albondigas", "Vegane Burger", "Reispfanne mit Gemüse", "Bratwürste mit Erbsen", "Rührei mit Toast", "Pfannkuchen mit Käse", "Pangasiusfilet mit Gemüse und Dillsoße", "Kartoffelbrei mit veganen Nuggets" ]
+    food.innerText = gerichte[1]
+
+    function changeFood(){
+    let gericht = gerichte[Math.floor(Math.random() * gerichte.length)];
+    return gericht
+    }
+
+    function inputFood(){
+        boxvalue = document.getElementById('box').value;
+        gerichte.push(boxvalue);
+        console.log(gerichte);
+        return false; // stop submission
+
+    }
+
+    taxCase = {
+    meta: {
+      taxonomie: 'est',
+      veranlagungszeitraum: '2020',
+      version_der_taxonomie: '5.1',
+    },
+  };
+
+  interviewConfig: InterviewConfig = {
+    type: 'InterviewForTaxinfo',
+    taxInfo: this.taxInfo,
+    taxCase: this.taxCase,
+    art: TaxInfoArt.AUSGABE,
+  };
+
+  function onClick(){
+    interviewConfig: InterviewConfig = {
+    type: 'InterviewForTaxinfo',
+    taxInfo: this.taxInfo,
+    taxCase: this.taxCase,
+    art: TaxInfoArt.AUSGABE,
+  };
+  
+  console.log(taxInfo)
+  }
+
+</script>
