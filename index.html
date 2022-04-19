@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4CH6HTFQPT"></script>
 <script>
@@ -13,71 +18,73 @@
 </head>
 <title>Page Title</title>
 <link rel="stylesheet" href="Essensplaner_css.css">
-<script src="./node_modules/zone.js/dist/zone.js"></script>
-<script src="./node_modules/@datev/tax-integration/main.js"></script>
 <body>
-
-<h1>Der Essenplaner</h1>
-<p>Welches Essen gibt es heute?</p>
-<p id="essen">Das Essen</p>
-
-<div class="center">
-<button type="button" onclick='document.getElementById("essen").innerHTML = changeFood()'>Click Me!</button>
-<button type="button" onclick=onClick()>Hello</button>
+  <div class="container py-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <form>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="inputFirstname">In welchem Land wohnst du?</label>
+                        <input type="text" class="form-control" id="inputFirstname" placeholder="zB. Deutschland">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="inputLastname">Bist du Linkshänder oder Rechtshänder?</label>
+                        <input type="text" class="form-control" id="inputLastname" placeholder="zB. Rechtshänder">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="inputAddressLine1">Hast du ein Haustier?</label>
+                        <input type="text" class="form-control" id="inputAddressLine1" placeholder="zB. Nein">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="inputAddressLine2">Wohnst du in einem Haus oder in einer Wohnung?</label>
+                        <input type="text" class="form-control" id="inputAddressLine2" placeholder="zB. Wohnung">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label for="inputContactNumber">Was magst du mehr? Katze oder Hund?</label>
+                        <input type="text" class="form-control" id="inputContactNumber" placeholder="zB. Hund">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="inputWebsite">Waren das leichte Fragen?</label>
+                        <input type="text" class="form-control" id="inputWebsite" placeholder="zB. Ja">
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                  Senden
+                </button>         
+               </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Vielen Dank für deine Teilnahme an der Umfrage!</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Schließen</button>
+      </div>
+      
+    </div>
+  </div>
 </div>
 
-<form onsubmit="return inputFood()">
-    <p>Please insert the items</p>
-    <input type="text" id="box">
-    <input type="submit" value="Submit">
-  </form>
-
-</body>
 </html>
 
 <script>
-    let food = document.getElementById("essen")
-    
-    let gerichte = ["Cottage Pie mit Rotweinsosse", "Kokos-Currysuppe mit Garnelen", "Erdnusscurry mit Tofu und Reis", "Zucchinischnitzel", "Linseneintopf", "Linsenbolognese", "Ofengemüse", "Lachs in Rahmsoße mit Bandnudeln", "Rahmpilz-Soße mit Spätzle", "Pizza", "Bauerntopf", "Chili con Carne", "Fischstäbchen mit Rührei und Kartoffeln", "Leberkäs mit Spiegelei und Spinat", "Schinkennudeln", "Semmelknödel", "Albondigas", "Vegane Burger", "Reispfanne mit Gemüse", "Bratwürste mit Erbsen", "Rührei mit Toast", "Pfannkuchen mit Käse", "Pangasiusfilet mit Gemüse und Dillsoße", "Kartoffelbrei mit veganen Nuggets" ]
-    food.innerText = gerichte[1]
-
-    function changeFood(){
-    let gericht = gerichte[Math.floor(Math.random() * gerichte.length)];
-    return gericht
-    }
-
-    function inputFood(){
-        boxvalue = document.getElementById('box').value;
-        gerichte.push(boxvalue);
-        console.log(gerichte);
-        return false; // stop submission
-
-    }
-
-    taxCase = {
-    meta: {
-      taxonomie: 'est',
-      veranlagungszeitraum: '2020',
-      version_der_taxonomie: '5.1',
-    },
-  };
-
-  interviewConfig: InterviewConfig = {
-    type: 'InterviewForTaxinfo',
-    taxInfo: this.taxInfo,
-    taxCase: this.taxCase,
-    art: TaxInfoArt.AUSGABE,
-  };
-
-  function onClick(){
-    interviewConfig: InterviewConfig = {
-    type: 'InterviewForTaxinfo',
-    taxInfo: this.taxInfo,
-    taxCase: this.taxCase,
-    art: TaxInfoArt.AUSGABE,
-  };
+function makePopUp(){
   
-  console.log(taxInfo)
-  }
+  alert()
+}
 
 </script>
