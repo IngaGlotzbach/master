@@ -19,11 +19,19 @@
 
   gtag('config', 'G-4CH6HTFQPT');
 </script>
+<script src="https://assets.zuko.io/js/v2/client.min.js"></script>
+<script>
+  Zuko
+    .trackForm({
+      target: document.getElementById('container'),
+      slug: '8bba1fd1717006d7'
+    }).trackEvent(Zuko.FORM_VIEW_EVENT);
+</script>
 </head>
 <title>Page Title</title>
 <link rel="stylesheet" href="Essensplaner_css.css">
 <body>
-  <div class="container py-5">
+  <div class="container py-5" id="container">
     <div class="row">
         <div class="col-md-10 mx-auto">
             <form>
