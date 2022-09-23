@@ -1,68 +1,82 @@
 <!DOCTYPE html>
 <html>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link href="../website.css" rel="stylesheet">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <!-- Hotjar Tracking Code for https://igl-ai-guidance.s3.eu-central-1.amazonaws.com/index.html -->
 
 
 <body>
     <div class="header"></div>
+    <div class="cookies" id="cookies">
+      <div class="align align--fluid">
+      <div class="align__cell">
+        <p class="cookies__message">Diese Seite verwendet Cookies, ist das ein Problem für dich?</p>
+      </div>
+    <div class="align__cell">
+      <div class="align align--gutter-md u-right">
+        <div class="align__cell">
+          <button class="button button__no" id="buttonNo" onclick="onButtonNoProblem()">Nein ist kein Problem</button>
+        </div>
+        <div class="align__cell">
+          <button class="button button__yes" id="buttonYes">Ja</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
     <div class="container py-5">
-        <h1 class="headline">Seite 2</h1>
+        <h1 class="headline">Allgemeinwissen</h1>
         <div class="row">
             <div class="col-md-10 mx-auto">
-                <form id="formular" action="./finishedWebsite.html">
+                <form id="formular" class="was-validated">
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <label for="inputFirstname">1. Wie viel Zeit nimmst du dir in der Woche für deine Hobbys?</label>
-                            <label class="error">Hallo</label>
+                            <label for="inputHobby">1. Wie viel Zeit nimmst du dir in der Woche für deine Hobbys?</label>
                             <input type="text" required class="form-control" id="inputHobby" placeholder="zB. 10 Stunden">
+                            <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                         </div>
                         <div class="col-sm-6">
-                            <label for="inputLastname">2. Wer war der/die dritte Bundeskanzler*in der BRD?</label>
-                            <input type="text" class="form-control" id="inputCancelor" placeholder="zB. Angela Merkel">
+                            <label for="inputCancelo">2. Wer war der/die dritte Bundeskanzler*in der BRD?</label>
+                            <input type="text" required class="form-control" id="inputCancelor" placeholder="zB. Angela Merkel" maxlength="20">
+                            <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                         </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6">
-                        <label for="inputLastname">4. Wie ist die Temperatur aktuell? Was würdest du schätzen?</label>
-                        <input type="text" class="form-control" id="inputTemperature" placeholder="zB. 3 Grad Celsius">
+                        <label for="inputTemperature">4. Wie ist die Temperatur aktuell? Was würdest du schätzen?</label>
+                        <!-- <label class="error">Bitte beantworte Frage 3 zuerst</label> -->
+                        <input type="text"  required class="form-control" id="inputTemperature" placeholder="zB. 3° Celsius">
+                        <label class="error" id="error4">Bitte gebe die richtige Formatierung an</label>
+                        <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                     </div>
                     <div class="col-sm-6">
-                      <label for="inputLastname">3. Morgen sind es noch vier Tage bis Sonntag. Welcher Tag ist übermorgen?</label>
-                      <input type="text" class="form-control" id="inputDays" placeholder="zB. Sonntag">
+                      <label for="inputDays">3. Morgen sind es noch vier Tage bis Sonntag. Welcher Tag ist übermorgen?</label>
+                      <input type="text"  required class="form-control" id="inputDays" placeholder="zB. Sonntag" maxlength="10">
+                      <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                   </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6">
-                      <label for="inputAddressLine2">5. Würdest du eher in den Bergen oder am Meer leben wollen?</label>
-                      <div class="inputHey">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rightHand" id="rightHandYes">
-                        <label class="form-check-label" for="rightHandYes">
-                          Berge
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rightHand" id="rightHandNo">
-                        <label class="form-check-label" for="rightHandNo">
-                          Meer
-                        </label>
-                      </div>
-                    </div>
+                        <label for="inputRiver">5. Welcher ist der längste Fluss der Welt?</label>
+                      <input type="text" required  class="form-control" id="inputRiver" placeholder="zB. Donau" maxlength="5">
+                      <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                     </div>
                       <div class="col-sm-6" id="difficultQuestion1">
-                        <label for="inputWebsite">6. Waren das schwere Fragen?</label>
-                        <input type="text" class="form-control" id="difficultQuestion" placeholder="zB. Ja">
+                        <label for="inputDifficultQuestion">6. Waren das schwere Fragen?</label>
+                        <input type="text" required  class="form-control" id="inputDifficultQuestion" placeholder="zB. Ja ">
+                        <label class="error" id="error">Bitte fülle das Feld aus</label>
+                        <div class="invalid-feedback">Bitte fülle das Feld aus</div>
                     </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-sm-6">
-                          <input type="submit" value="Umfrage senden" onclick="msg()">
-                      </div>
+                        <button type="button" id="nextButton" class="button" onclick="onCheckForInputFieldsFertigButton()">Seite</button> 
+                        <label class="nextSite">Bitte <p id="clickHere" onclick="onCheckForInputFields()">HIER</p> <p id="alibiClick">klicken</p> um zur nächsten SEITE zu kommen</label>
+                        <label class="error" id="error6">Bitte fülle die 6.Frage aus</label>
                     </div>
                   </div>
                     </div>
@@ -70,6 +84,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="../script.js"></script>
     <script type="text/javascript" src="test-b.js"></script>
 </body>
 </html>

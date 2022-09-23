@@ -9,88 +9,151 @@
 
 let inputCountry = document.getElementById('inputCountry');
 let inputHouse = document.getElementById('inputHouse');
-let inputPet = document.getElementsByName('pet')
-let inputHand = document.getElementsByName('rightHand')
+let inputPet = document.getElementById('inputPet')
+let inputHand = document.getElementById('inputHand')
 let inputBundesland = document.getElementById('inputBundesland')
 let inputEasyQuestion = document.getElementById('inputEasyQuestion')
+let nextButton = document.getElementById('nextButton')
 
-const ws = new WebSocket('ws://3.73.4.211:3000');
-
-function msg(){
-  alert(inputCountry.value)
-}
+let arrayOfInputs = [inputCountry, inputHouse, inputPet, inputHand, inputBundesland, inputEasyQuestion];
 
 const container = document.getElementById('container')
-let timeBetween = 0; 
-let timeStampFocus = 0;
-let timeStampBlur = 0; 
-let msgArray = []
+let focusBlurObject = {};
+let mouseOverOutObject = {};
+let keyPressObject = {};
+let tabBrowserFocusedObject = {};
+let clickObject = {};
+let browser; 
 
-window.addEventListener('DOMContentLoaded', function() {
-  ws.onopen = function() {
-    console.log('Connected to Client');
-    listenerForFocusAndBlur(inputCountry)
+function detectBrowser() {
+
+  let userAgent = navigator.userAgent;
+  let browserName;
+
+  if (userAgent.match(/chrome|chromium|crios/i)) {
+    browserName = "Chrome";
+  } else if (userAgent.match(/firefox|fxios/i)) {
+    browserName = "Firefox";
+  } else if (userAgent.match(/safari/i)) {
+    browserName = "Safari";
+  } else if (userAgent.match(/opr\//i)) {
+    browserName = "Opera";
+  } else if (userAgent.match(/edg/i)) {
+    browserName = "Edge";
+  } else if (userAgent.match(/android/i)) {
+    browserName = "Android";
+  } else if (userAgent.match(/iphone/i)) {
+    browserName = "iPhone";
+  } else {
+    browserName = "Unknown";
   }
-});
+  return browserName
+}
 
+function onNextPage() {
+  window.location.href = "../test-b/test-b.html";
+}
+
+//bei focus müssen wir noch herausfinden ob er über tab oder click gegangen ist 
 function listenerForFocusAndBlur(element) {
   ['focus', 'blur'].forEach(elementEvents => {
     element.addEventListener(elementEvents, event => {
-      if(event.type === 'focus') {
-        timeStampFocus = event.timeStamp;
-        ws.send(event)
-      } else if(event.type === 'blur') {
-        timeStampBlur = event.timeStamp;
-        timeBetween = timeStampBlur - timeStampFocus
-        ws.send(event)
-      }
+        focusBlurObject = {
+          id: event.srcElement.id,
+          srcElement: event.srcElement,
+          timeStamp: event.timeStamp,
+          type: event.type,
+          siteName: 'TestEinfach', 
+          browser: browser,
+        }
+        ws.send(JSON.stringify(focusBlurObject))
     })
   })
 }
 
-// ws.onopen = function() {
-//     console.log('WebSocket Client Connected');
+function listenerForClick(element) {
+  ['click'].forEach(elementEvents => {
+      element.addEventListener(elementEvents, event => {
+          clickObject = {
+            id: event.srcElement.id,
+            srcElement: event.srcElement,
+            timeStamp: event.timeStamp,
+            type: event.type,
+            siteName: 'TestEinfach', 
+            browser: browser,
+            click: event.click
+          }
+          ws.send(JSON.stringify(clickObject))
+      })
+    })
+}
 
-//     mouseMove.addEventListener('mousemove', e => {
-//         ws.send(e.pageX, e.offsetY)
-//     })
-// };
+//wenn jemand über ein Element hovert und drinnen ist 
+//wenn jemand über ein Element hovert und rausgeht --> denke wenn der Timestamp zu aneinnander ist --> einfach fallen lassen die Daten 
+function listenerForMouseOverAndOut(element) {
+  ['mouseover', 'mouseout'].forEach(elementEvents => {
+    element.addEventListener(elementEvents, event => {
+      mouseOverOutObject = {
+          id: event.srcElement.id,
+          clientX: event.clientX,
+          clientY: event.clientY,
+          timeStamp: event.timeStamp,
+          type: event.type,
+          siteName: 'TestEinfach'
+        }
+      ws.send(JSON.stringify(mouseOverOutObject))
+    })
+  })
+}
 
-
-// das bezieht sich wirklich nur aufs window
-Object.keys(window).forEach(key => {
-if(/^on(pointer)/.test(key)) {
-window.addEventListener(key.slice(2), event => {
-    console.dir(event)
+// hier müssen wir leider den Abstrich machen, dass Backspace nicht nur einmal gesendet wird sondern mehrere Male wenn man länger drauf bleibt.
+function listenerForKeyPress(element) {
+  ['keydown'].forEach(elementEvents => {
+    element.addEventListener(elementEvents, event => {
+      if(event.key === 'Backspace') {
+      keyPressObject = {
+        id: event.srcElement.id,
+        key: event.key,
+        timeStamp: event.timeStamp,
+        type: event.type,
+        siteName: 'TestEinfach'
+        }
+        ws.send(JSON.stringify(keyPressObject))
+        }
+     })
     })
   }
-})
-
-// inputCountry.onfocus = (e) => {
-//   this.timeStampFocus = e.timeStamp
-//   console.log(timeStampFocus)
-// }
-
-// timeBetween = timeStampBlur - timeStampFocus
-
-// console.log(timeBetween)
-
-// inputCountry.onclick = (e) => {
-//   console.log(e)
-// }
 
 
+window.addEventListener('DOMContentLoaded', function() {
+  ws.onopen = function() {
+     browser = detectBrowser()
 
+     for (let index = 0; index < arrayOfInputs.length; index++) {
+      listenerForFocusAndBlur(arrayOfInputs[index])
+      listenerForKeyPress(arrayOfInputs[index])
+      listenerForMouseOverAndOut(arrayOfInputs[index])
+     }
 
+     listenerForClick(nextButton)
 
-
-// const send = document.querySelector('#send');
-// var mouseMove = document.getElementById('hello')
-
-// ws.onopen = function() {
-//     console.log('WebSocket Client Connected');
-
-//     mouseMove.addEventListener('mousemove', e => {
-//         ws.send(e.pageX, e.offsetY)
-//     })
-// };
+    // das bezieht sich wirklich nur aufs window
+    Object.keys(window).forEach(key => {
+      if(/^on(focus|blur|scroll)/.test(key)) {
+        window.addEventListener(key.slice(2), event => {
+          console.log(event)
+        tabBrowserFocusedObject = {
+          id: 'window',
+          timeStamp: event.timeStamp,
+          type: event.type,
+          siteName: 'TestEinfach', 
+          browser: browser,
+          scroll: event.scroll
+        }
+        ws.send(JSON.stringify(tabBrowserFocusedObject))
+        })
+      } 
+    })
+    console.log('Connected to Client');
+  }
+});

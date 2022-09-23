@@ -3,6 +3,7 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <link href="website.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <body>
 <div class="header"></div>
 <div class="container-start">
@@ -22,9 +23,13 @@
     </ul>
     <div class="text">Wenn Sie Fragen zu dieser Erhebung haben, wenden Sie sich bitte gerne an die/den Verantwortliche/n
         dieser Untersuchung: Glotzbach, Inga (glotzbachin68101@th-nuernberg.de)</div>
-        <a href="test-a/test-a.html">
-            <button type="button" class="button">Umfrage starten</button> 
-        </a>
+    <button type="button" onclick="onNextPage()"class="button">Umfrage starten</button> 
 </div>
 </body>
+<script>
+
+function onNextPage() {
+  window.location.href = "test-a/test-a.html"
+}
+</script>
 </html>

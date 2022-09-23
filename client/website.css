@@ -6,6 +6,52 @@ body {
     margin:0px
 }
 
+a {
+    color: black;
+    
+}
+
+a:hover {
+    text-decoration: none;
+    color: black;
+    cursor: text;
+}
+
+.nextSite {
+    cursor: text;
+}
+
+.cookies {
+    width: 100%;
+    padding: 3em;
+    background: red;
+}
+
+.align {
+    display: table;
+}
+
+.align--fluid {
+    width: 100%;
+}
+
+.align__cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.u-right {
+    float: right;
+}
+
+.align--gutter-md>.align__cell:not(:last-child){
+    padding-right: 1.25rem
+}
+
+.button__no {
+    background: transparent !important;
+}
+
 .header {
     background-color: #002A69;
     height: 70px;
@@ -24,6 +70,16 @@ body {
     padding-top: 5rem !important;
 }
 
+#clickHere {
+    display: contents;
+}
+
+#alibiClick {
+    display: contents;
+    color: green;
+    text-decoration: solid black !important;
+}
+
 .headline {
     color: #002A69;
 }
@@ -40,6 +96,10 @@ body {
 
 #difficultQuestion1 {
     top: 1200px
+}
+
+.form-control {
+    color: #6c757d
 }
 
 .button {    
@@ -95,7 +155,15 @@ input:invalid {
         padding: 0.5rem 1.5rem
     }
 
+    .row {
+        margin:0px;
+    }
+
     .form-group {
         margin-bottom: 0
+    }
+
+    .align__cell {
+        display: inline;
     }
 }
